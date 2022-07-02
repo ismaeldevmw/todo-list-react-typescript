@@ -1,58 +1,47 @@
+import { SetStateAction } from "react"
 import { CreateTodoButton } from "../CreateTodoButton"
+import { TodoContext } from "../TodoContext"
 import { TodoCounter } from "../TodoCounter"
 import { TodoItem } from "../TodoItem"
 import { TodoList } from "../TodoList"
 import { TodoSearch } from "../TodoSearch"
 
-type Todo = {
-  text: string
-  completed: boolean
-}
-
-interface AppUIProps {
-  totalTodos: number
-  completedTodos: number 
-  searchValue: string
-  setSearchValue: Function
-  searchedTodos: Array<Todo>
-  completeTodo: Function
-  deleteTodo: Function
-}
-
-const AppUI = ({
-    totalTodos,
-    completedTodos, 
-    searchValue, 
-    setSearchValue,
-    searchedTodos,
-    completeTodo,
-    deleteTodo
-  }: AppUIProps) => {
+const AppUI = () => {
   return (
     <>
-      <TodoCounter 
-        total={totalTodos}
-        completed={completedTodos}
-      />
+      <TodoCounter />
 
-      <TodoSearch 
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
+      <TodoSearch />
+
+      <TodoContext.Consumer>
+        {({
+          error,
+          loading,
+          searchedTodos,
+          completeTodo,
+          deleteTodo
+        }
+        ) => (
+          <TodoList>
+            {error && <p>Desespérate, hubo un error</p>}
+            { loading && <p>Estamos cargando, no desesperes...</p>}
+            {(!loading && !searchedTodos.length) && <p>Crea tu primer TODO!</p>}
+
+            <ul>
+            {searchedTodos.map((todo, index) => (
+              <TodoItem 
+                key={index}
+                text={todo.text}
+                completed={todo.completed ?? false}
+                onComplete={() => completeTodo(todo.text)}
+                onDelete={() => deleteTodo(todo.text)}
+              />
+            ))}
+            </ul>
+          </TodoList>
+        )}
+      </TodoContext.Consumer>
       
-      <TodoList>
-        <ul>
-        {searchedTodos.map((todo, index) => (
-          <TodoItem 
-            key={index}
-            text={todo.text}
-            completed={todo.completed}
-            onComplete={() => completeTodo(todo.text)}
-            onDelete={() => deleteTodo(todo.text)}
-          />
-        ))}
-        </ul>
-      </TodoList>
 
       <CreateTodoButton/>
     </>
