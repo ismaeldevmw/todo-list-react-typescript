@@ -24,7 +24,7 @@ function useLocalStorage(itemName: string, initialValue: []) {
         setError(error)
         setLoading(false)
       }
-    }, 1000)
+    }, 3000)
   }, [])
 
   

@@ -7,6 +7,7 @@ import { TodoList } from "../TodoList"
 import { TodoSearch } from "../TodoSearch"
 import { Modal } from "../Modal"
 import { TodoForm } from "../TodoForm"
+import { TodoLoading } from "../TodoLoading"
 
 const AppUI = () => {
   const {
@@ -27,7 +28,7 @@ const AppUI = () => {
 
       <TodoList>
         {error && <p>Desespérate, hubo un error</p>}
-        { loading && <p>Estamos cargando, no desesperes...</p>}
+        { loading && <TodoLoading/> }
         {(!loading && !searchedTodos.length) && <p>Crea tu primer TODO!</p>}
 
         <ul>
