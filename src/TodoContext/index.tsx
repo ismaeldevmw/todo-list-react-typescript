@@ -9,8 +9,11 @@ interface IContextProps {
   searchValue: string
   setSearchValue: React.Dispatch<React.SetStateAction<string>>
   searchedTodos: Array<Todo>
+  addTodo: Function
   completeTodo: Function
   deleteTodo: Function
+  openModal: boolean
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const TodoContext = React.createContext<IContextProps>({
@@ -21,8 +24,11 @@ const TodoContext = React.createContext<IContextProps>({
   searchValue:'',
   setSearchValue: () => {},
   searchedTodos: [],
+  addTodo: () => {},
   completeTodo: () => {},
   deleteTodo: () => {},
+  openModal: false,
+  setOpenModal: () => {}
 })
 
 type Todo = {
@@ -42,6 +48,7 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
     error
   } = useLocalStorage('TODOS_V1', [])
   const [searchValue, setSearchValue] = React.useState('')
+  const [openModal, setOpenModal] = React.useState(false)
 
   const completedTodos = todos.filter((todo: Todo) => !!todo.completed).length
   const totalTodos = todos.length
@@ -54,6 +61,14 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
     searchedTodos = todos.filter((todo: Todo) => todo.text.toLowerCase().includes(searchValue.toLowerCase()))
   }
 
+  const addTodo = (text: string) => {
+    const newTodos = [...todos]
+    newTodos.push({
+      text,
+      completed: false
+    })
+    saveTodos(newTodos)
+  }
   const completeTodo = (text: string) => {
     const todoIndex = todos.findIndex((todo: Todo) => todo.text === text )
     const newTodos = [...todos]
@@ -77,8 +92,11 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
       searchValue,
       setSearchValue,
       searchedTodos,
+      addTodo,
       completeTodo,
       deleteTodo,
+      openModal,
+      setOpenModal
     }}>
       {children}
     </TodoContext.Provider>
