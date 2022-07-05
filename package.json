@@ -1,14 +1,14 @@
 {
-  "homepage":"https://ismaeldevmw.github.io/todo-list-react-typescript",
   "name": "todo-list",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "homepage":"https://ismaeldevmw.github.io/todo-list-react-typescript",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.0.0",
