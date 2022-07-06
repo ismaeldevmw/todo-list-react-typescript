@@ -10,7 +10,7 @@
 - Count tasks
 - Mark task as done
 - Delete a task
-- Open modal toa add a task
+- Open modal to add a task
 - TODO skeleton loading
 
 ## Hooks
